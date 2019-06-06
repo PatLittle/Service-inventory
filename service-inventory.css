@@ -1,0 +1,53 @@
+/* #service_title {
+  text-align: center;
+  padding: 30px 0;
+}
+
+#service_description {
+  text-align: center;
+  padding: 10px 0;
+} */
+
+#e_enablement {
+  margin-top: 30px;
+}
+
+.donut-inner {
+   margin-top: -90px;
+   margin-bottom: 60px;
+   text-align: center;
+}
+.donut-inner h2 {
+   margin-bottom: 5px;
+   margin-top: 0;
+}
+
+#chart1 {
+  /* margin-bottom: 50px; */
+}
+
+#chart2 {
+  margin-bottom: 50px;
+  margin-top: 25px;
+}
+
+h1 {
+  margin-bottom: 50px;
+}
+
+main h3 {
+  margin-top: 70px;
+  margin-bottom: 30px;
+}
+
+
+/* #e_enablement {
+  margin-bottom: 100px;
+} */
+
+
+
+
+/* #dashboard {
+  border:1px solid grey;
+} */
