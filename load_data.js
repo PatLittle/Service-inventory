@@ -6,8 +6,8 @@ let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
 
 var test_url = 'staging.open.canada.ca/charts/si/esdc-edsc - 09';
-// var service_id = decodeURIComponent(window.location.href.split('/').pop());
-var service_id = test_url.split('/').pop();
+var service_id = decodeURIComponent(window.location.href.split('?').pop());
+// var service_id = test_url.split('/').pop();
 console.log('id: ' + service_id);
 console.log('URL: ' + window.location.href);
 
