@@ -40,6 +40,10 @@ main h3 {
   margin-bottom: 30px;
 }
 
+td.min {
+    width: 1%;
+    white-space: nowrap;
+}
 
 /* #e_enablement {
   margin-bottom: 100px;

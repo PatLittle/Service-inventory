@@ -5,8 +5,9 @@ let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
 
-var test_url = 'staging.open.canada.ca/charts/si/esdc-edsc - 11';
-var service_id = decodeURIComponent(window.location.href.split('/').pop());
+var test_url = 'staging.open.canada.ca/charts/si/esdc-edsc - 09';
+// var service_id = decodeURIComponent(window.location.href.split('/').pop());
+var service_id = test_url.split('/').pop();
 console.log('id: ' + service_id);
 console.log('URL: ' + window.location.href);
 
@@ -51,7 +52,7 @@ function consumeData(error, services_data, standards_data) {
   console.log(service);
 
   //Append service title & description
-  $('#service_title').html('<b>Service Name</b>: ' + service[0]['service_name_en']);
+  $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_EN']);
   var org_name = service[0]['Org Name'].split(" | ")[0];
   $('#service_department').html('<b>Department</b>: ' + org_name);
   $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_en']);
@@ -61,7 +62,7 @@ function consumeData(error, services_data, standards_data) {
 
   //online percentage
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
-  var online_percent = (service_17_18.length > 0) ? 100 * online_applications/sum_transactions_17_18 : 100 * online_applications/sum_transactions_16_17;
+  var online_percent = (service_17_18.length == 0 ) ? 100 * online_applications/sum_transactions_16_17 : (sum_transactions_17_18 > 0) ? 100 * online_applications/sum_transactions_17_18 : 0;
   console.log("online_percent: " + online_percent);
   $('#online_percent').html(formatPercent(online_percent));
 
