@@ -6,11 +6,11 @@ function loadEnablementTable(e_enablement) {
     var row = document.getElementById(index);
     var cell = row.insertCell(1);
     if (e_enablement[index] == "Y") {
-      cell.innerHTML = '<span class="glyphicon glyphicon-ok"></span> Enabled';
+      cell.innerHTML = '<span class="glyphicon glyphicon-ok"></span> Yes';
       cell.setAttribute("style","color:green; white-space: nowrap;");
       console.log(cell);
     } else if (e_enablement[index] == "N") {
-      cell.innerHTML = '<span class="glyphicon glyphicon-remove"></span> Not enabled';
+      cell.innerHTML = '<span class="glyphicon glyphicon-remove"></span> No';
       cell.setAttribute("style","color:#CD0000; white-space: nowrap;");
       console.log(cell);
     } else {

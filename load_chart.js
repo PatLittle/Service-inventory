@@ -1,18 +1,16 @@
 
 Chart.plugins.unregister(ChartDataLabels);
 
-function drawDoughnutChart(avg_performance, avg_target) {
+function drawDoughnutChart(targets_met, targets_total) {
 
-  console.log(avg_performance);
+  console.log('1: ' + targets_met/targets_total*100);
+  console.log('2: ' + (100-(targets_met/targets_total*100)));
 
   var data = {
     datasets: [
         {
-            data: [avg_performance, 100-avg_performance],
-            backgroundColor: [
-                (avg_performance < avg_target) ? "#CD0000": "green" ,
-                "#D3D3D3"
-            ]
+            data: [targets_met/targets_total*100, (100-(targets_met/targets_total*100))],
+            backgroundColor: ["green","#D3D3D3"]
         }]
 };
 
@@ -49,8 +47,8 @@ var myDoughnutChart = new Chart(ctx, {
     }
 });
 
-  $('.donut-inner h2').text(parseInt(avg_performance) + '%');
-  $('#target').html(((avg_performance < avg_target) ? 'The average service standard target of ' + avg_target + '%  has NOT been met' : 'The average service standard target of ' + avg_target + '%  has been met'));
+  $('.donut-inner h2').text(targets_met + ' / ' + targets_total);
+  $('#target').html('service standard targets were met');
 
 }
 

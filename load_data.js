@@ -5,9 +5,9 @@ let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
 
-var test_url = 'staging.open.canada.ca/charts/si/cra-arc - 04';
-// var service_id = decodeURIComponent(window.location.href.split('?').pop());
-var service_id = test_url.split('/').pop();
+var test_url = 'staging.open.canada.ca/charts/si/cra-arc - 09';
+var service_id = decodeURIComponent(window.location.href.split('?').pop());
+// var service_id = test_url.split('/').pop();
 console.log('id: ' + service_id);
 console.log('URL: ' + window.location.href);
 
@@ -52,6 +52,7 @@ function consumeData(error, services_data, standards_data) {
   console.log(service);
 
   //Append service title & description
+  $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
   $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_EN']);
   var org_name = service[0]['Org Name'].split(" | ")[0];
   $('#service_department').html('<b>Department</b>: ' + org_name);
@@ -90,13 +91,15 @@ function consumeData(error, services_data, standards_data) {
   console.log(standards);
   function drawChart1() {
     if(standards.length > 0) {
-      $('#standards').attr('style','display: block');
+      var targets_met = _.filter(standards, function(obj) { return parseInt(obj['performance'].replace('%','')) >= parseInt(obj['service_std_target'].replace('%','')) });
+      console.log("targets_met: " + targets_met.length);
       var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseInt(num.replace('%','')) },0)/standards.length;
       var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseInt(num.replace('%','')) },0)/standards.length;
       console.log("avrg_target: " + avrg_target);
       console.log("avrg_performance: " + avrg_performance);
-      drawDoughnutChart(avrg_performance, avrg_target);
+      drawDoughnutChart(targets_met.length, standards.length);
     } else {
+      $('#standards').attr('style','display: none');
       $('#no-standards').html('NOTE: No service standard information was collected for this service.');
     }
   }
@@ -106,7 +109,7 @@ function consumeData(error, services_data, standards_data) {
   var tableData = _.map(standards, function(standard) {
     var tableFormat = {
       'Service Standard' : standard.service_std_en,
-      'Target' : formatPercentDecimal(parseInt(standard.service_std_target)),
+      'Target' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
       'Result' : formatPercentDecimal(parseInt(standard.performance))
     };
     return tableFormat;
