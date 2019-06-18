@@ -48,7 +48,7 @@ var myDoughnutChart = new Chart(ctx, {
 });
 
   $('.donut-inner h2').text(targets_met + ' / ' + targets_total);
-  $('#target').html('service standard targets were met');
+  (targets_met > 1) ? $('#target').html('service standard targets were met') : $('#target').html('service standard target was met');
 
 }
 

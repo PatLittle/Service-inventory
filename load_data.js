@@ -5,7 +5,7 @@ let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
 
-var test_url = 'staging.open.canada.ca/charts/si/cra-arc - 09';
+var test_url = 'staging.open.canada.ca/charts/si/cra-arc - 10';
 var service_id = decodeURIComponent(window.location.href.split('?').pop());
 // var service_id = test_url.split('/').pop();
 console.log('id: ' + service_id);
