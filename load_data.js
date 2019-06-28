@@ -5,9 +5,17 @@ let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
 
-var test_url = 'staging.open.canada.ca/charts/si/cra-arc - 10';
-var service_id = decodeURIComponent(window.location.href.split('?').pop());
-// var service_id = test_url.split('/').pop();
+var test_url = 'chercher.ouvert.canada.ca/chart/si/index-fr.html?aafc-aac - 14';
+// var service_id = decodeURIComponent(window.location.href.split('?').pop());
+var service_id = test_url.split('?').pop();
+var fr_page = false;
+
+if (test_url.includes('index-fr.html')) {
+  fr_page = true;
+  $('#toggle').attr('href','search.open.canada.ca/chart/si/index-en.html?' + service_id);
+} else {
+  $('#toggle').attr('href','chercher.ouvert.canada.ca/chart/si/index-fr.html?' + service_id);
+}
 console.log('id: ' + service_id);
 console.log('URL: ' + window.location.href);
 
@@ -52,13 +60,24 @@ function consumeData(error, services_data, standards_data) {
   console.log(service);
 
   //Append service title & description
-  $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
-  $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_EN']);
-  var org_name = service[0]['Org Name'].split(" | ")[0];
-  $('#service_department').html('<b>Department</b>: ' + org_name);
-  $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_en']);
-  $('#service_year').html('<b>Year reported</b>: ' + service[0]['fiscal_yr']);
-  $('#service_fee').html('<b>Service fees</b>: ' + ((service[0]['service_fee'] == 'Y') ? 'This service has service fees.' : 'This service does not have any service fees.'));
+  if (fr_page) {
+    $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
+    $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_FR']);
+    var org_name = service[0]['Org Name'].split(" | ")[1];
+    $('#service_department').html('<b>Department</b>: ' + org_name);
+    $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_fr']);
+    $('#service_year').html('<b>Year reported</b>: ' + service[0]['fiscal_yr']);
+    $('#service_fee').html('<b>Service fees</b>: ' + ((service[0]['service_fee'] == 'Y') ? 'Ce service comporte des frais de service.' : 'Ce service ne comporte pas des frais de service.'));
+  } else {
+    $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
+    $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_EN']);
+    var org_name = service[0]['Org Name'].split(" | ")[0];
+    $('#service_department').html('<b>Department</b>: ' + org_name);
+    $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_en']);
+    $('#service_year').html('<b>Year reported</b>: ' + service[0]['fiscal_yr']);
+    $('#service_fee').html('<b>Service fees</b>: ' + ((service[0]['service_fee'] == 'Y') ? 'This service has service fees.' : 'This service does not have any service fees.'));
+  }
+
 
 
   //online percentage
@@ -100,18 +119,26 @@ function consumeData(error, services_data, standards_data) {
       drawDoughnutChart(targets_met.length, standards.length);
     } else {
       $('#standards').attr('style','display: none');
-      $('#no-standards').html('NOTE: No service standard information was collected for this service.');
+      (fr_page) ? $('#no-standards').html('NOTE: No service standard information was collected for this service.') : $('#no-standards').html('NOTE: Aucuns standards de service ont été collectés pour ce service.');
     }
   }
 
 
   // Populate service standards table
   var tableData = _.map(standards, function(standard) {
-    var tableFormat = {
-      'Service Standard' : standard.service_std_en,
-      'Target' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
-      'Result' : formatPercentDecimal(parseInt(standard.performance))
-    };
+    if(fr_page) {
+      var tableFormat = {
+        'Service Standard' : standard.service_std_fr,
+        'Objectif' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
+        'Resultat' : formatPercentDecimal(parseInt(standard.performance))
+      };
+    } else {
+      var tableFormat = {
+        'Service Standard' : standard.service_std_en,
+        'Target' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
+        'Result' : formatPercentDecimal(parseInt(standard.performance))
+      };
+    }
     return tableFormat;
   });
   populateTable(tableData);

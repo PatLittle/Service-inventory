@@ -36,7 +36,7 @@ var myDoughnutChart = new Chart(ctx, {
         padding: 20,
         fontSize: 22,
         color: 'black',
-        text: 'Service Standards Performance'
+        text: (fr_page) ? 'Rendement des Normes Relatives aux Services' : 'Service Standards Performance'
       },
     	rotation: 1 * Math.PI,
       circumference: 1 * Math.PI,
@@ -48,7 +48,11 @@ var myDoughnutChart = new Chart(ctx, {
 });
 
   $('.donut-inner h2').text(targets_met + ' / ' + targets_total);
-  (targets_met > 1) ? $('#target').html('service standard targets were met') : $('#target').html('service standard target was met');
+  if (targets_met > 1) {
+    (fr_page) ? $('#target').html('Les objectifs liés aux normes relatives aux services ont été atteints') : $('#target').html('service standard targets were met');
+  } else {
+    (fr_page) ? $('#target').html('L’objectif lié aux normes relatives aux services a été atteint') : $('#target').html('service standard target was met');
+  }
 
 }
 
@@ -56,6 +60,7 @@ var myDoughnutChart = new Chart(ctx, {
 function drawBarChart(sum16_17, sum17_18) {
 
   var ctx = document.getElementById("chart2");
+  ctx.height = 54;
 
   var data = {
     labels: ['2016-2017','2017-2018'],
@@ -71,7 +76,7 @@ function drawBarChart(sum16_17, sum17_18) {
 
     title: {
       display: true,
-      text: 'Total Number of Applications',
+      text: (fr_page) ? 'Nombre Total d\'Applications' : 'Total Number of Applications',
       position: 'top',
       padding: 20,
       fontSize: 22,
