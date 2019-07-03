@@ -5,16 +5,16 @@ let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
 
-var test_url = 'chercher.ouvert.canada.ca/chart/si/index-fr.html?aafc-aac - 14';
-// var service_id = decodeURIComponent(window.location.href.split('?').pop());
-var service_id = test_url.split('?').pop();
+var test_url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 14';
+var service_id = decodeURIComponent(window.location.href.split('?').pop());
+// var service_id = test_url.split('?').pop();
 var fr_page = false;
 
 if (test_url.includes('index-fr.html')) {
   fr_page = true;
-  $('#toggle').attr('href','search.open.canada.ca/chart/si/index-en.html?' + service_id);
+  $('#toggle').attr('href','search-staging.open.canada.ca/chart/si/index-en.html?' + service_id);
 } else {
-  $('#toggle').attr('href','chercher.ouvert.canada.ca/chart/si/index-fr.html?' + service_id);
+  $('#toggle').attr('href','rechercher-stadification.ouvert.canada.ca/chart/si/index-fr.html?' + service_id);
 }
 console.log('id: ' + service_id);
 console.log('URL: ' + window.location.href);
@@ -61,7 +61,7 @@ function consumeData(error, services_data, standards_data) {
 
   //Append service title & description
   if (fr_page) {
-    $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
+    $('h1').html(service[0]['Edited_Service_Name_FR'] + ': Bord des Performances de Services');
     $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_FR']);
     var org_name = service[0]['Org Name'].split(" | ")[1];
     $('#service_department').html('<b>Department</b>: ' + org_name);

@@ -49,6 +49,10 @@ td.min {
     white-space: nowrap;
 }
 
+#standards h3 {
+  margin-bottom: 50px;
+}
+
 /* #e_enablement {
   margin-bottom: 100px;
 } */
