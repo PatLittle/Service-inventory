@@ -19,7 +19,6 @@ function loadEnablementTable(e_enablement) {
     }
 
 
-    // var (e_enablement[index])
   }
 }
 

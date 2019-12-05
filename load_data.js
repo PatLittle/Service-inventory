@@ -62,12 +62,12 @@ function consumeData(error, services_data, standards_data) {
   //Append service title & description
   if (fr_page) {
     $('h1').html(service[0]['Edited_Service_Name_FR'] + ': Bord des Performances de Services');
-    $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_FR']);
+    $('#service_title').html('<b>Titre du service</b> : ' + service[0]['Edited_Service_Name_FR']);
     var org_name = service[0]['Org Name'].split(" | ")[1];
-    $('#service_department').html('<b>Department</b>: ' + org_name);
-    $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_fr']);
-    $('#service_year').html('<b>Year reported</b>: ' + service[0]['fiscal_yr']);
-    $('#service_fee').html('<b>Service fees</b>: ' + ((service[0]['service_fee'] == 'Y') ? 'Ce service comporte des frais de service.' : 'Ce service ne comporte pas des frais de service.'));
+    $('#service_department').html('<b>Ministère</b> : ' + org_name);
+    $('#service_description').html('<b>Description du service</b> : ' + service[0]['service_description_fr']);
+    $('#service_year').html('<b>Année de la déclaration</b> : ' + service[0]['fiscal_yr']);
+    $('#service_fee').html('<b>Frais de service</b> : ' + ((service[0]['service_fee'] == 'Y') ? 'Ce service comporte des frais de service.' : 'Ce service ne comporte pas des frais de service.'));
   } else {
     $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
     $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_EN']);
