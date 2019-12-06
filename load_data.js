@@ -7,17 +7,18 @@ let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B")
 
 var test_url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 14';
 var service_id = decodeURIComponent(window.location.href.split('?').pop());
+var url = window.location.href;
 // var service_id = test_url.split('?').pop();
 var fr_page = false;
 
-if (test_url.includes('index-fr.html')) {
+if (url.includes('index-fr.html')) {
   fr_page = true;
-  $('#toggle').attr('href','search-staging.open.canada.ca/chart/si/index-en.html?' + service_id);
+  $('#toggle').attr('href','index-en.html?' + service_id);
 } else {
-  $('#toggle').attr('href','rechercher-stadification.ouvert.canada.ca/chart/si/index-fr.html?' + service_id);
+  $('#toggle').attr('href','index-fr.html?' + service_id);
 }
-console.log('id: ' + service_id);
-console.log('URL: ' + window.location.href);
+// console.log('id: ' + service_id);
+// console.log('URL: ' + window.location.href);
 
 function sumTransactions(service) {
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
