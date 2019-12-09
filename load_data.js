@@ -5,10 +5,14 @@ let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
 
-var test_url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 14';
-var service_id = decodeURIComponent(window.location.href.split('?').pop());
-var url = window.location.href;
-// var service_id = test_url.split('?').pop();
+// var url = window.location.href;
+// var service_id = decodeURIComponent(url.split('?').pop());
+
+// Testing variables
+var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 14';
+var service_id = url.split('?').pop();
+
+
 var fr_page = false;
 
 if (url.includes('index-fr.html')) {
@@ -62,16 +66,16 @@ function consumeData(error, services_data, standards_data) {
 
   //Append service title & description
   if (fr_page) {
-    $('h1').html(service[0]['Edited_Service_Name_FR'] + ': Bord des Performances de Services');
+    $('h1').html(service[0]['Edited_Service_Name_FR'] + ': Tableau de bord sur le rendement');
     $('#service_title').html('<b>Titre du service</b> : ' + service[0]['Edited_Service_Name_FR']);
     var org_name = service[0]['Org Name'].split(" | ")[1];
     $('#service_department').html('<b>Ministère</b> : ' + org_name);
     $('#service_description').html('<b>Description du service</b> : ' + service[0]['service_description_fr']);
     $('#service_year').html('<b>Année de la déclaration</b> : ' + service[0]['fiscal_yr']);
-    $('#service_fee').html('<b>Frais de service</b> : ' + ((service[0]['service_fee'] == 'Y') ? 'Ce service comporte des frais de service.' : 'Ce service ne comporte pas des frais de service.'));
+    $('#service_fee').html('<b>Frais de service</b> : ' + ((service[0]['service_fee'] == 'Y') ? 'Ce service comporte des frais de service.' : 'Ce service ne comporte aucun frais de service.'));
   } else {
     $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
-    $('#service_title').html('<b>Service Name</b>: ' + service[0]['Edited_Service_Name_EN']);
+    $('#service_title').html('<b>Service name</b>: ' + service[0]['Edited_Service_Name_EN']);
     var org_name = service[0]['Org Name'].split(" | ")[0];
     $('#service_department').html('<b>Department</b>: ' + org_name);
     $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_en']);
@@ -129,13 +133,13 @@ function consumeData(error, services_data, standards_data) {
   var tableData = _.map(standards, function(standard) {
     if(fr_page) {
       var tableFormat = {
-        'Service Standard' : standard.service_std_fr,
+        'Norme relative aux services' : standard.service_std_fr,
         'Objectif' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
-        'Resultat' : formatPercentDecimal(parseInt(standard.performance))
+        'Résultat' : formatPercentDecimal(parseInt(standard.performance))
       };
     } else {
       var tableFormat = {
-        'Service Standard' : standard.service_std_en,
+        'Service standard' : standard.service_std_en,
         'Target' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
         'Result' : formatPercentDecimal(parseInt(standard.performance))
       };
