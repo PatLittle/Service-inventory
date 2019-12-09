@@ -5,12 +5,12 @@ let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
 
-// var url = window.location.href;
-// var service_id = decodeURIComponent(url.split('?').pop());
+var url = window.location.href;
+var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 14';
-var service_id = url.split('?').pop();
+// var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 14';
+// var service_id = url.split('?').pop();
 
 
 var fr_page = false;
