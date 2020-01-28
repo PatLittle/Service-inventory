@@ -15,7 +15,7 @@ var service_id = url.split('?').pop();
 
 var fr_page = false;
 
-if (url.includes('index-fr.html')) {
+if (url.indexOf('index-fr.html') > -1) {
   fr_page = true;
   $('#toggle').attr('href','index-en.html?' + service_id);
 } else {
