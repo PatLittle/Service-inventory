@@ -124,7 +124,7 @@ function consumeData(error, services_data, standards_data) {
       drawDoughnutChart(targets_met.length, standards.length);
     } else {
       $('#standards').attr('style','display: none');
-      (fr_page) ? $('#no-standards').html('NOTE: No service standard information was collected for this service.') : $('#no-standards').html('NOTE: Aucuns standards de service ont été collectés pour ce service.');
+      (fr_page) ? $('#no-standards').html('NOTE: Aucuns standards de service ont été collectés pour ce service.') : $('#no-standards').html('NOTE: No service standard information was collected for this service.');
     }
   }
 
