@@ -9,9 +9,9 @@ let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B")
 // var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 14';
+var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 915';
 var service_id = url.split('?').pop();
-
+console.log(service_id);
 
 var fr_page = false;
 
@@ -51,7 +51,7 @@ function consumeData(error, services_data, standards_data) {
   });
 
   // Sum of transactions
-  var sum_transactions_16_17 = sumTransactions(service_16_17);
+  var sum_transactions_16_17 = (service_16_17.length > 0) ? sumTransactions(service_16_17) : 0;
   var sum_transactions_17_18 = (service_17_18.length > 0) ? sumTransactions(service_17_18) : 0;
   var service = (service_17_18.length > 0) ? service_17_18 : service_16_17;
   function drawChart2() {
