@@ -81,7 +81,7 @@
 		<nav id="wb-bc" property="breadcrumb">
 			<h2>Vous êtes ici :</h2>
 			<div class="container">
-				<ol class="breadcrumb">+
+				<ol class="breadcrumb">
 					<li><a href="https://www.canada.ca/fr.html">Accueil</a></li>
 					<li><a href="https://rechercher.ouvert.canada.ca/fr/si/">Recherche du Répertoire de services</a></li>
 				</ol>
@@ -98,75 +98,80 @@
 				<p id="service_title"></p>
 				<p id="service_description"></p>
 				<p id="service_fee"></p>
+				<p id="service_url"></p>
 			</div>
 		</div>
 
-	<h3>Disponibilité des services en ligne et nombre total de demandes</h3>
-	<div class="row" id="dashboard">
-		<div class="col-md-12">
-			<p>Un service est considéré comme entièrement en ligne si toutes ses composantes applicables sont accessibles en ligne.</p>
-			<p>Le nombre total d'applications montre à quelle fréquence les gens ou les entreprises ont formulé une demande pour ce service (par tous les moyens possibles, soit en ligne, par la poste, par téléphone, en personne et par télécopieur).</p>
+		<h3>Disponibilité des services en ligne et nombre total de demandes</h3>
+		<div class="row" id="dashboard">
+			<div class="col-md-12">
+				<p>Un service est considéré comme entièrement en ligne si toutes ses composantes applicables sont accessibles en ligne.</p>
+				<p>Le nombre total d'applications montre à quelle fréquence les gens ou les entreprises ont formulé une demande pour ce service (par tous les moyens possibles, soit en ligne, par la poste, par téléphone, en personne et par télécopieur).</p>
+			</div>
+			<br>
+
+			<div class="col-md-8">
+				<table class="table" id="e_enablement">
+					<caption style="color: #666666">Quelles sont les composantes de ce service qui sont accessibles en ligne?</caption>
+					<thead>
+					<tr>
+						<th scope="col">Composantes de ce service</th>
+						<th scope="col">État en ligne</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr id="e_registration">
+							<td>Une personne ou une entreprise peut inscrire une personne, un lieu ou une chose en ligne.</td>
+						</tr>
+						<tr id="e_authentication">
+							<td>Il est possible pour une personne ou une entreprise de s’authentifier en ligne.</td>
+						</tr>
+						<tr id="e_application">
+							<td>Il est possible pour une personne ou une entreprise de présenter une demande en ligne pour ce service.</td>
+						</tr>
+						<tr id="e_decision">
+							<td>Il est possible pour une personne ou une entreprise de s’informer de la décision du ministère en ligne ou en format électronique.</td>
+						</tr>
+						<tr id="e_issuance">
+							<td>Il est possible pour une personne ou une entreprise de recevoir des documents en ligne.</td>
+						</tr>
+						<tr id="e_feedback">
+							<td>Il est possible pour une personne ou une entreprise d’offrir des commentaires en ligne.</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-4">
+				<div class="col-md-12"><canvas id="chart2" width="48%" height="50%"></canvas></div>
+				<div class="col-md-12">
+					<div class="col-xs-8" style="padding-left: 15px; padding-right: 10px; font-size: 18px">Pourcentage des transactions totales effectuées en ligne</div>
+					<div class="col-xs-4" style="text-align: center; padding: 5px 0px;"><h2 id="online_percent"></h2></div>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="standards" style="display: block">
+			<br>
+			<h3>Synthèse du rendement des normes relatives aux services</h3>
+			<div class="row">
+				<div class="col-md-4 col-sm-12 float-right" style="text-align:center">
+						<canvas id="chart1" width="80%" height="50%"></canvas>
+						<div class="donut-inner">
+								<h2></h2>
+						</div>
+						<p id="target" style="font-size:100%;"></p>
+				</div>
+				<div class="col-md-8 col-sm-12" style="padding: 0% 15px">
+					<table id="table2" class="table table-striped table-hover"></table>
+				</div>
+			</div>
 		</div>
 		<br>
-
-		<div class="col-md-8">
-			<table class="table" id="e_enablement">
-				<caption style="color: #666666">Quelles sont les composantes de ce service qui sont accessibles en ligne?</caption>
-				<thead>
-				 <tr>
-					 <th scope="col">Composantes de ce service</th>
-					 <th scope="col">État en ligne</th>
-				 </tr>
-				</thead>
-				<tbody>
-					<tr id="e_registration">
-						<td>Une personne ou une entreprise peut inscrire une personne, un lieu ou une chose en ligne.</td>
-					</tr>
-					<tr id="e_authentication">
-						<td>Il est possible pour une personne ou une entreprise de s’authentifier en ligne.</td>
-					</tr>
-					<tr id="e_application">
-						<td>Il est possible pour une personne ou une entreprise de présenter une demande en ligne pour ce service.</td>
-					</tr>
-					<tr id="e_decision">
-						<td>Il est possible pour une personne ou une entreprise de s’informer de la décision du ministère en ligne ou en format électronique.</td>
-					</tr>
-					<tr id="e_issuance">
-						<td>Il est possible pour une personne ou une entreprise de recevoir des documents en ligne.</td>
-					</tr>
-					<tr id="e_feedback">
-						<td>Il est possible pour une personne ou une entreprise d’offrir des commentaires en ligne.</td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="alert alert-info" id="standards-note">
+			Note : selon la façon dont la norme de service est rapportée, les résultats pourraient être « ND » (sans objet) ou 0 % lorsqu’il n’y a pas de données à rapporter. 
+			Dans certains cas, 0 % indique que les services n’ont pas respecté leurs normes.
 		</div>
-		<div class="col-md-4">
-			<div class="col-md-12"><canvas id="chart2" width="48%" height="50%"></canvas></div>
-			<div class="col-md-12">
-				<div class="col-xs-8" style="padding-left: 15px; padding-right: 10px; font-size: 18px">Pourcentage des transactions totales effectuées en ligne</div>
-				<div class="col-xs-4" style="text-align: center; padding: 5px 0px;"><h2 id="online_percent"></h2></div>
-			</div>
-		</div>
-	</div>
-
-	<br>
-	<p id="no-standards"></p>
-
-	<div id="standards" style="display: block">
-		<h3>Synthèse du rendement des normes relatives aux services</h3>
-		<div class="row">
-			<div class="col-md-4 col-sm-12 float-right" style="text-align:center">
-					<canvas id="chart1" width="80%" height="50%"></canvas>
-					<div class="donut-inner">
-							<h2></h2>
-					</div>
-					<p id="target" style="font-size:100%;"></p>
-			</div>
-			<div class="col-md-8 col-sm-12" style="padding: 0% 15px">
-				<table id="table2" class="table table-striped table-hover"></table>
-			</div>
-		</div>
-	</div>
 
 
 

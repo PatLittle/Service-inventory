@@ -9,7 +9,7 @@ let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B")
 // var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 915';
+var url = 'chercher.ouvert.canada.ca/chart/si/index-fr.html?cbsa-asfc - 02';
 var service_id = url.split('?').pop();
 console.log(service_id);
 
@@ -73,6 +73,7 @@ function consumeData(error, services_data, standards_data) {
     $('#service_description').html('<b>Description du service</b> : ' + service[0]['service_description_fr']);
     $('#service_year').html('<b>Année de la déclaration</b> : ' + service[0]['fiscal_yr']);
     $('#service_fee').html('<b>Frais de service</b> : ' + ((service[0]['service_fee'] == 'Y') ? 'Ce service comporte des frais de service.' : 'Ce service ne comporte aucun frais de service.'));
+    $('#service_url').html('<b>Lien au service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_fr'] +'">Accedez ici</a>');
   } else {
     $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
     $('#service_title').html('<b>Service name</b>: ' + service[0]['Edited_Service_Name_EN']);
@@ -81,6 +82,7 @@ function consumeData(error, services_data, standards_data) {
     $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_en']);
     $('#service_year').html('<b>Year reported</b>: ' + service[0]['fiscal_yr']);
     $('#service_fee').html('<b>Service fees</b>: ' + ((service[0]['service_fee'] == 'Y') ? 'This service has service fees.' : 'This service does not have any service fees.'));
+    $('#service_url').html('<b>Link to service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_en'] +'">Access here</a>');
   }
 
 
@@ -115,7 +117,7 @@ function consumeData(error, services_data, standards_data) {
   console.log(standards);
   function drawChart1() {
     if(standards.length > 0) {
-      var targets_met = _.filter(standards, function(obj) { return parseInt(obj['performance'].replace('%','')) >= parseInt(obj['service_std_target'].replace('%','')) });
+      var targets_met = _.filter(standards, function(obj) { return parseFloat(obj['performance'].replace('%','')) >= parseInt(obj['service_std_target'].replace('%','')) });
       console.log("targets_met: " + targets_met.length);
       var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseInt(num.replace('%','')) },0)/standards.length;
       var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseInt(num.replace('%','')) },0)/standards.length;
@@ -124,24 +126,25 @@ function consumeData(error, services_data, standards_data) {
       drawDoughnutChart(targets_met.length, standards.length);
     } else {
       $('#standards').attr('style','display: none');
-      (fr_page) ? $('#no-standards').html('NOTE: Aucuns standards de service ont été collectés pour ce service.') : $('#no-standards').html('NOTE: No service standard information was collected for this service.');
+      (fr_page) ? $('#standards-note').html('Note: Aucuns standards de service ont été collectés pour ce service.') : $('#standards-note').html('Note: No service standard information was collected for this service.');
     }
   }
 
 
   // Populate service standards table
   var tableData = _.map(standards, function(standard) {
+    console.log(standard);
     if(fr_page) {
       var tableFormat = {
         'Norme relative aux services' : standard.service_std_fr,
         'Objectif' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
-        'Résultat' : formatPercentDecimal(parseInt(standard.performance))
+        'Résultat' : formatPercentDecimal(parseFloat(standard.performance))
       };
     } else {
       var tableFormat = {
         'Service standard' : standard.service_std_en,
         'Target' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
-        'Result' : formatPercentDecimal(parseInt(standard.performance))
+        'Result' : formatPercentDecimal(parseFloat(standard.performance))
       };
     }
     return tableFormat;

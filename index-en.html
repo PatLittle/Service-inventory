@@ -98,79 +98,80 @@
 					<p id="service_title"></p>
 					<p id="service_description"></p>
 					<p id="service_fee"></p>
+					<p id="service_url"></p>
 				</div>
 			</div>
 
-		<h3>Online availability of services and total applications</h3>
-		<div class="row" id="dashboard">
-			<div class="col-md-12">
-				<p>If all the applicable components for a specific service are available online, that service is considered fully online.
-				<p>The total number of applications shows how often people or businesses applied for this service through all possible channels, such as online, by mail, over the telephone, in-person and by fax.</p>
+			<h3>Online availability of services and total applications</h3>
+			<div class="row" id="dashboard">
+				<div class="col-md-12">
+					<p>If all the applicable components for a specific service are available online, that service is considered fully online.
+					<p>The total number of applications shows how often people or businesses applied for this service through all possible channels, such as online, by mail, over the telephone, in-person and by fax.</p>
+				</div>
+				<br>
+
+				<div class="col-md-8">
+					<table class="table" id="e_enablement">
+						<caption style="color: #666666">What components of this service are available online?</caption>
+						<thead>
+					<tr>
+						<th scope="col">Component of this service</th>
+							<th scope="col">Online status</th>
+					</tr>
+					</thead>
+						<tbody>
+						<tr id="e_registration">
+							<td>A person or business can register a person, place or thing online</td>
+							</tr>
+							<tr id="e_authentication">
+							<td>A person or business can authenticate themselves online</td>
+							</tr>
+							<tr id="e_application">
+							<td>A person or business can apply online for this service</td>
+							</tr>
+							<tr id="e_decision">
+							<td>A person or business can be informed of the department’s decision online or through an electronic format</td>
+							</tr>
+							<tr id="e_issuance">
+							<td>A person or business can be issued documentation online</td>
+							</tr>
+							<tr id="e_feedback">
+							<td>A person or business can provide feedback online</td>
+							</tr>
+					</tbody>
+					</table>
+				</div>
+				<div class="col-md-4">
+					<div class="col-md-12"><canvas id="chart2" width="48%" height="50%"></canvas></div>
+					<div class="col-md-12">
+						<div class="col-xs-8" style="padding-left: 15px; padding-right: 10px; font-size: 18px">Percent of total applications that take place online</div>
+						<div class="col-xs-4" style="text-align: center; padding: 5px 0px;"><h2 id="online_percent"></h2></div>
+					</div>
+				</div>
+			</div>
+
+
+			<div id="standards" style="display: block">
+				<br>
+				<h3>Summary of Service Standard Performance</h3>
+				<div class="row">
+					<div class="col-md-4 col-sm-12 float-right" style="text-align:center">
+				<canvas id="chart1" width="80%" height="50%"></canvas>
+							<div class="donut-inner">
+									<h2></h2>
+							</div>
+							<p id="target" style="font-size:100%;"></p>
+					</div>
+					<div class="col-md-8 col-sm-12" style="padding: 0% 15px">
+						<table id="table2" class="table table-striped table-hover"></table>
+					</div>
+				</div>
 			</div>
 			<br>
-
-			<div class="col-md-8">
-				<table class="table" id="e_enablement">
-					<caption style="color: #666666">What components of this service are available online?</caption>
-					<thead>
-				   <tr>
-				     <th scope="col">Component of this service</th>
-						 <th scope="col">Online status</th>
-				   </tr>
-				  </thead>
-					<tbody>
-				   	<tr id="e_registration">
-				    	<td>A person or business can register a person, place or thing online</td>
-						</tr>
-						<tr id="e_authentication">
-				    	<td>A person or business can authenticate themselves online</td>
-						</tr>
-						<tr id="e_application">
-				    	<td>A person or business can apply online for this service</td>
-						</tr>
-						<tr id="e_decision">
-				    	<td>A person or business can be informed of the department’s decision online or through an electronic format</td>
-						</tr>
-						<tr id="e_issuance">
-				    	<td>A person or business can be issued documentation online</td>
-						</tr>
-						<tr id="e_feedback">
-				    	<td>A person or business can provide feedback online</td>
-						</tr>
-				  </tbody>
-				</table>
+			<div class="alert alert-info" id="standards-note">
+				Note: depending on how the service standard is reported, the result could show as ND (No Data) or 0% when there is no data to report. 
+				In some instances, 0% indicates that the services did not meet their standards.
 			</div>
-			<div class="col-md-4">
-				<div class="col-md-12"><canvas id="chart2" width="48%" height="50%"></canvas></div>
-				<div class="col-md-12">
-					<div class="col-xs-8" style="padding-left: 15px; padding-right: 10px; font-size: 18px">Percent of total applications that take place online</div>
-					<div class="col-xs-4" style="text-align: center; padding: 5px 0px;"><h2 id="online_percent"></h2></div>
-				</div>
-			</div>
-		</div>
-
-		<br>
-		<p id="no-standards"></p>
-
-		<div id="standards" style="display: block">
-			<h3>Summary of Service Standard Performance</h3>
-			<div class="row">
-				<div class="col-md-4 col-sm-12 float-right" style="text-align:center">
-            <canvas id="chart1" width="80%" height="50%"></canvas>
-						<div class="donut-inner">
-								<h2></h2>
-						</div>
-						<p id="target" style="font-size:100%;"></p>
-				</div>
-				<div class="col-md-8 col-sm-12" style="padding: 0% 15px">
-					<table id="table2" class="table table-striped table-hover"></table>
-				</div>
-			</div>
-		</div>
-
-
-
-
 
 			<br>
 
