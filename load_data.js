@@ -3,13 +3,13 @@
 // let formatDollarMini = function(d) { return "$" + d3.format(".2s")(d).replace(/G/,"B"); }
 let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
-let formatNumberMini = function(d) { return d3.format(".2s")(d).replace(/G/,"B"); }
+let formatNumberMini = function(d) { return d3.format(".3s")(d).replace(/G/,"B"); }
 
 // var url = window.location.href;
 // var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-fr.html?cbsa-asfc - 02';
+var url = 'chercher.ouvert.canada.ca/chart/si/index-fr.html?cra-arc - 18';
 var service_id = url.split('?').pop();
 console.log(service_id);
 
@@ -26,12 +26,11 @@ if (url.indexOf('index-fr.html') > -1) {
 
 function sumTransactions(service) {
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
-  var calls_received = (service[0]['calls_received'] == "") ? 0 : parseInt(service[0]['calls_received']);
   var in_person_applications = (service[0]['in_person_applications'] == "") ? 0 : parseInt(service[0]['in_person_applications']);
   var email_applications = (service[0]['email_applications'] == "") ? 0 : parseInt(service[0]['email_applications']);
   var fax_applications = (service[0]['fax_applications'] == "") ? 0 : parseInt(service[0]['fax_applications']);
   var postal_mail_applications = (service[0]['postal_mail_applications'] == "") ? 0 : parseInt(service[0]['postal_mail_applications']);
-  return online_applications + calls_received + in_person_applications + email_applications + fax_applications + postal_mail_applications
+  return online_applications + in_person_applications + email_applications + fax_applications + postal_mail_applications
 }
 
 function consumeData(error, services_data, standards_data) {
