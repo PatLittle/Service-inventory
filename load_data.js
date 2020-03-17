@@ -117,10 +117,10 @@ function consumeData(error, services_data, standards_data) {
   console.log(standards);
   function drawChart1() {
     if(standards.length > 0) {
-      var targets_met = _.filter(standards, function(obj) { return parseFloat(obj['performance'].replace('%','')) >= parseInt(obj['service_std_target'].replace('%','')) });
+      var targets_met = _.filter(standards, function(obj) { return parseFloat(obj['performance'].replace('%','')) >= parseFloat(obj['service_std_target'].replace('%','')) });
       console.log("targets_met: " + targets_met.length);
-      var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseInt(num.replace('%','')) },0)/standards.length;
-      var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseInt(num.replace('%','')) },0)/standards.length;
+      var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseFloat(num.replace('%','')) },0)/standards.length;
+      var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseFloat(num.replace('%','')) },0)/standards.length;
       console.log("avrg_target: " + avrg_target);
       console.log("avrg_performance: " + avrg_performance);
       drawDoughnutChart(targets_met.length, standards.length);
@@ -137,13 +137,13 @@ function consumeData(error, services_data, standards_data) {
     if(fr_page) {
       var tableFormat = {
         'Norme relative aux services' : standard.service_std_fr,
-        'Objectif' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
+        'Objectif' : (standard.service_std_target != '') ? formatPercentDecimal(parseFloat(standard.service_std_target)) : '',
         'Résultat' : formatPercentDecimal(parseFloat(standard.performance))
       };
     } else {
       var tableFormat = {
         'Service standard' : standard.service_std_en,
-        'Target' : (standard.service_std_target != '') ? formatPercentDecimal(parseInt(standard.service_std_target)) : '',
+        'Target' : (standard.service_std_target != '') ? formatPercentDecimal(parseFloat(standard.service_std_target)) : '',
         'Result' : formatPercentDecimal(parseFloat(standard.performance))
       };
     }
