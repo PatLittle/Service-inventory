@@ -1,7 +1,7 @@
 //
 // let formatDollar = function(d) { return "$" + d3.format(",.0f")(d).replace(/G/,"B"); }
 // let formatDollarMini = function(d) { return "$" + d3.format(".2s")(d).replace(/G/,"B"); }
-let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
+let formatPercentDecimal = function(d) { return d3.format(".1f")(d*100) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { return d3.format(".3s")(d).replace(/G/,"B"); }
 
@@ -9,7 +9,7 @@ let formatNumberMini = function(d) { return d3.format(".3s")(d).replace(/G/,"B")
 // var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-fr.html?cra-arc - 18';
+var url = 'chercher.ouvert.canada.ca/chart/si/index-fr.html?aafc-aac - 03';
 var service_id = url.split('?').pop();
 console.log(service_id);
 
@@ -23,6 +23,7 @@ if (url.indexOf('index-fr.html') > -1) {
 }
 // console.log('id: ' + service_id);
 // console.log('URL: ' + window.location.href);
+console.log('fr_page: ' + fr_page);
 
 function sumTransactions(service) {
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
@@ -42,11 +43,11 @@ function consumeData(error, services_data, standards_data) {
   var year_data =  _.chain(services_data).groupBy('fiscal_yr').value();
 
   var service_17_18 = _.filter(year_data['2017-2018'], function (row) {
-    return service_id === row['New_Service_ID'];
+    return service_id === row['harmonized_service_id'];
   });
 
   var service_16_17 = _.filter(year_data['2016-2017'], function (row) {
-    return service_id === row['New_Service_ID'];
+    return service_id === row['harmonized_service_id'];
   });
 
   // Sum of transactions
@@ -65,18 +66,18 @@ function consumeData(error, services_data, standards_data) {
 
   //Append service title & description
   if (fr_page) {
-    $('h1').html(service[0]['Edited_Service_Name_FR'] + ': Tableau de bord sur le rendement');
-    $('#service_title').html('<b>Titre du service</b> : ' + service[0]['Edited_Service_Name_FR']);
-    var org_name = service[0]['Org Name'].split(" | ")[1];
+    $('h1').html(service[0]['harmonized_service_name_fr'] + ': Tableau de bord sur le rendement');
+    $('#service_title').html('<b>Titre du service</b> : ' + service[0]['harmonized_service_name_fr']);
+    var org_name = service[0]['owner_org_title'].split(" | ")[1];
     $('#service_department').html('<b>Ministère</b> : ' + org_name);
     $('#service_description').html('<b>Description du service</b> : ' + service[0]['service_description_fr']);
     $('#service_year').html('<b>Année de la déclaration</b> : ' + service[0]['fiscal_yr']);
     $('#service_fee').html('<b>Frais de service</b> : ' + ((service[0]['service_fee'] == 'Y') ? 'Ce service comporte des frais de service.' : 'Ce service ne comporte aucun frais de service.'));
     $('#service_url').html('<b>Lien au service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_fr'] +'">Accedez ici</a>');
   } else {
-    $('h1').html(service[0]['Edited_Service_Name_EN'] + ': Performance Dashboard');
-    $('#service_title').html('<b>Service name</b>: ' + service[0]['Edited_Service_Name_EN']);
-    var org_name = service[0]['Org Name'].split(" | ")[0];
+    $('h1').html(service[0]['harmonized_service_name_en'] + ': Performance Dashboard');
+    $('#service_title').html('<b>Service name</b>: ' + service[0]['harmonized_service_name_en']);
+    var org_name = service[0]['owner_org_title'].split(" | ")[0];
     $('#service_department').html('<b>Department</b>: ' + org_name);
     $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_en']);
     $('#service_year').html('<b>Year reported</b>: ' + service[0]['fiscal_yr']);
@@ -111,15 +112,15 @@ function consumeData(error, services_data, standards_data) {
 
   //target data
   var standards = _.filter(standards_data, function(row) {
-    return service[0]['New_Service_ID'] === row['New Service ID'];
+    return service[0]['harmonized_service_id'] === row['harmonized_service_id'];
   });
   console.log(standards);
   function drawChart1() {
     if(standards.length > 0) {
-      var targets_met = _.filter(standards, function(obj) { return parseFloat(obj['performance'].replace('%','')) >= parseFloat(obj['service_std_target'].replace('%','')) });
+      var targets_met = _.filter(standards, function(obj) { return parseFloat(obj['performance']) >= parseFloat(obj['service_std_target']) });
       console.log("targets_met: " + targets_met.length);
-      var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseFloat(num.replace('%','')) },0)/standards.length;
-      var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseFloat(num.replace('%','')) },0)/standards.length;
+      var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseFloat(num)*100 },0)/standards.length;
+      var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseFloat(num)*100 },0)/standards.length;
       console.log("avrg_target: " + avrg_target);
       console.log("avrg_performance: " + avrg_performance);
       drawDoughnutChart(targets_met.length, standards.length);
@@ -137,13 +138,13 @@ function consumeData(error, services_data, standards_data) {
       var tableFormat = {
         'Norme relative aux services' : standard.service_std_fr,
         'Objectif' : (standard.service_std_target != '') ? formatPercentDecimal(parseFloat(standard.service_std_target)) : '',
-        'Résultat' : formatPercentDecimal(parseFloat(standard.performance))
+        'Résultat' : (standard.performance != 'ND') ? formatPercentDecimal(parseFloat(standard.performance)) : 'ND'
       };
     } else {
       var tableFormat = {
         'Service standard' : standard.service_std_en,
         'Target' : (standard.service_std_target != '') ? formatPercentDecimal(parseFloat(standard.service_std_target)) : '',
-        'Result' : formatPercentDecimal(parseFloat(standard.performance))
+        'Result' : (standard.performance != 'ND') ? formatPercentDecimal(parseFloat(standard.performance)) : 'ND'
       };
     }
     return tableFormat;
@@ -165,6 +166,10 @@ function consumeData(error, services_data, standards_data) {
 
 
 d3.queue()
-  .defer(d3.csv, 'service-inventory-services.csv')
-  .defer(d3.csv, 'service-standards.csv')
+  // .defer(d3.csv, 'service-inventory-services.csv')
+  // .defer(d3.csv, 'service-standards.csv')
+  .defer(d3.csv, 'service.csv')
+  .defer(d3.csv, 'service-std.csv')
+  // .defer(d3.csv, 'https://open.canada.ca/data/dataset/3ac0d080-6149-499a-8b06-7ce5f00ec56c/resource/3acf79c0-a5f5-4d9a-a30d-fb5ceba4b60a/download/service.csv')
+  // .defer(d3.csv, 'https://open.canada.ca/data/dataset/3ac0d080-6149-499a-8b06-7ce5f00ec56c/resource/272143a7-533e-42a1-b72d-622116474a21/download/service-std.csv')
   .await(consumeData); //only function name is needed
