@@ -9,7 +9,7 @@ let formatNumberMini = function(d) { return d3.format(".3s")(d).replace(/G/,"B")
 // var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-fr.html?aafc-aac - 03';
+var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 03';
 var service_id = url.split('?').pop();
 console.log(service_id);
 
@@ -31,7 +31,7 @@ function sumTransactions(service) {
   var email_applications = (service[0]['email_applications'] == "") ? 0 : parseInt(service[0]['email_applications']);
   var fax_applications = (service[0]['fax_applications'] == "") ? 0 : parseInt(service[0]['fax_applications']);
   var postal_mail_applications = (service[0]['postal_mail_applications'] == "") ? 0 : parseInt(service[0]['postal_mail_applications']);
-  return online_applications + in_person_applications + email_applications + fax_applications + postal_mail_applications
+  return online_applications + in_person_applications + email_applications + fax_applications + postal_mail_applications;
 }
 
 function consumeData(error, services_data, standards_data) {
