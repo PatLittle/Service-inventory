@@ -9,7 +9,7 @@ let formatNumberMini = function(d) { return d3.format(".3s")(d).replace(/G/,"B")
 // var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?aafc-aac - 03';
+var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?ssc-spc - 08';
 var service_id = url.split('?').pop();
 console.log(service_id);
 
@@ -73,7 +73,9 @@ function consumeData(error, services_data, standards_data) {
     $('#service_description').html('<b>Description du service</b> : ' + service[0]['service_description_fr']);
     $('#service_year').html('<b>Année de la déclaration</b> : ' + service[0]['fiscal_yr']);
     $('#service_fee').html('<b>Frais de service</b> : ' + ((service[0]['service_fee'] == 'Y') ? 'Ce service comporte des frais de service.' : 'Ce service ne comporte aucun frais de service.'));
-    $('#service_url').html('<b>Lien au service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_fr'] +'">Accedez ici</a>');
+    if (validURL(service[0]['service_url_fr'])) {
+      $('#service_url').html('<b>Lien au service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_fr'] +'">Accedez ici</a>');
+    }
   } else {
     $('h1').html(service[0]['harmonized_service_name_en'] + ': Performance Dashboard');
     $('#service_title').html('<b>Service name</b>: ' + service[0]['harmonized_service_name_en']);
@@ -82,7 +84,9 @@ function consumeData(error, services_data, standards_data) {
     $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_en']);
     $('#service_year').html('<b>Year reported</b>: ' + service[0]['fiscal_yr']);
     $('#service_fee').html('<b>Service fees</b>: ' + ((service[0]['service_fee'] == 'Y') ? 'This service has service fees.' : 'This service does not have any service fees.'));
-    $('#service_url').html('<b>Link to service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_en'] +'">Access here</a>');
+    if (validURL(service[0]['service_url_en'])) {
+      $('#service_url').html('<b>Link to service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_en'] +'">Access here</a>');
+    }
   }
 
 
@@ -161,7 +165,15 @@ function consumeData(error, services_data, standards_data) {
 
 }
 
-
+function validURL(str) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return !!pattern.test(str);
+}
 
 
 
