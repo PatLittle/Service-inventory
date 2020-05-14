@@ -127,7 +127,7 @@ function drawBarChart(sum16_17, sum17_18) {
             size: '20'
           },
           formatter: function(value, context) {
-            return parseInt(formatNumberMini(value));
+            return formatNumberMini(value);
           }
         }
       }

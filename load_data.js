@@ -3,13 +3,21 @@
 // let formatDollarMini = function(d) { return "$" + d3.format(".2s")(d).replace(/G/,"B"); }
 let formatPercentDecimal = function(d) { return d3.format(".1f")(d*100) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
-let formatNumberMini = function(d) { return d3.format(".3s")(d).replace(/G/,"B"); }
+let formatNumberMini = function(d) { 
+  if (d<10) {
+    return d3.format(".1s")(d).replace(/G/,"B");
+  }
+  if (d<100) {
+    return d3.format(".2s")(d).replace(/G/,"B");
+  }
+  return d3.format(".3s")(d).replace(/G/,"B");
+}
 
 // var url = window.location.href;
 // var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?ssc-spc - 08';
+var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?cic - 09';
 var service_id = url.split('?').pop();
 console.log(service_id);
 
