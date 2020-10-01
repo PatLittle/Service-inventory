@@ -3,8 +3,6 @@ Chart.plugins.unregister(ChartDataLabels);
 
 function drawDoughnutChart(targets_met, targets_total) {
 
-  console.log('1: ' + targets_met/targets_total*100);
-  console.log('2: ' + (100-(targets_met/targets_total*100)));
 
   var data = {
     datasets: [

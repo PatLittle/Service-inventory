@@ -19,7 +19,6 @@ let formatNumberMini = function(d) {
 // Testing variables
 var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?cic - 09';
 var service_id = url.split('?').pop();
-console.log(service_id);
 
 var fr_page = false;
 
@@ -29,9 +28,6 @@ if (url.indexOf('index-fr.html') > -1) {
 } else {
   $('#toggle').attr('href','index-fr.html?' + service_id);
 }
-// console.log('id: ' + service_id);
-// console.log('URL: ' + window.location.href);
-console.log('fr_page: ' + fr_page);
 
 function sumTransactions(service) {
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
@@ -68,9 +64,6 @@ function consumeData(error, services_data, standards_data) {
 
 
 
-  console.log("sum_transactions_16_17 " + sum_transactions_16_17);
-  console.log("sum_transactions_17_18 " + sum_transactions_17_18);
-  console.log(service);
 
   //Append service title & description
   if (fr_page) {
@@ -102,7 +95,6 @@ function consumeData(error, services_data, standards_data) {
   //online percentage
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
   var online_percent = (service_17_18.length == 0 ) ? 100 * online_applications/sum_transactions_16_17 : (sum_transactions_17_18 > 0) ? 100 * online_applications/sum_transactions_17_18 : 0;
-  console.log("online_percent: " + online_percent);
   $('#online_percent').html(formatPercent(online_percent));
 
   // e-enablement
@@ -126,15 +118,11 @@ function consumeData(error, services_data, standards_data) {
   var standards = _.filter(standards_data, function(row) {
     return service[0]['harmonized_service_id'] === row['harmonized_service_id'];
   });
-  console.log(standards);
   function drawChart1() {
     if(standards.length > 0) {
       var targets_met = _.filter(standards, function(obj) { return parseFloat(obj['performance']) >= parseFloat(obj['service_std_target']) });
-      console.log("targets_met: " + targets_met.length);
       var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseFloat(num)*100 },0)/standards.length;
       var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseFloat(num)*100 },0)/standards.length;
-      console.log("avrg_target: " + avrg_target);
-      console.log("avrg_performance: " + avrg_performance);
       drawDoughnutChart(targets_met.length, standards.length);
     } else {
       $('#standards').attr('style','display: none');
@@ -145,7 +133,6 @@ function consumeData(error, services_data, standards_data) {
 
   // Populate service standards table
   var tableData = _.map(standards, function(standard) {
-    console.log(standard);
     if(fr_page) {
       var tableFormat = {
         'Norme relative aux services' : standard.service_std_fr,
