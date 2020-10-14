@@ -13,12 +13,12 @@ let formatNumberMini = function(d) {
   return d3.format(".3s")(d).replace(/G/,"B");
 }
 
-// var url = window.location.href;
-// var service_id = decodeURIComponent(url.split('?').pop());
+var url = window.location.href;
+var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?cic - 09';
-var service_id = url.split('?').pop();
+// var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?cic - 09';
+// var service_id = url.split('?').pop();
 
 var fr_page = false;
 
