@@ -17,7 +17,7 @@ var url = window.location.href;
 var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-// var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?cic - 09';
+// var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?135';
 // var service_id = url.split('?').pop();
 
 var fr_page = false;
@@ -32,10 +32,10 @@ if (url.indexOf('index-fr.html') > -1) {
 function sumTransactions(service) {
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
   var in_person_applications = (service[0]['in_person_applications'] == "") ? 0 : parseInt(service[0]['in_person_applications']);
-  var email_applications = (service[0]['email_applications'] == "") ? 0 : parseInt(service[0]['email_applications']);
-  var fax_applications = (service[0]['fax_applications'] == "") ? 0 : parseInt(service[0]['fax_applications']);
+  // var email_applications = (service[0]['email_applications'] == "") ? 0 : parseInt(service[0]['email_applications']);
+  var other_applications = (service[0]['other_applications'] == "") ? 0 : parseInt(service[0]['other_applications']);
   var postal_mail_applications = (service[0]['postal_mail_applications'] == "") ? 0 : parseInt(service[0]['postal_mail_applications']);
-  return online_applications + in_person_applications + email_applications + fax_applications + postal_mail_applications;
+  return online_applications + in_person_applications + other_applications + postal_mail_applications;
 }
 
 function consumeData(error, services_data, standards_data) {
@@ -47,12 +47,14 @@ function consumeData(error, services_data, standards_data) {
   var year_data =  _.chain(services_data).groupBy('fiscal_yr').value();
 
   var service_17_18 = _.filter(year_data['2017-2018'], function (row) {
-    return service_id === row['harmonized_service_id'];
+    return !isNaN(row['service_id']) && service_id === row['service_id'];
   });
 
   var service_16_17 = _.filter(year_data['2016-2017'], function (row) {
-    return service_id === row['harmonized_service_id'];
+    return !isNaN(row['service_id']) && service_id === row['service_id'];
   });
+
+  console.log({service_16_17,service_17_18});
 
   // Sum of transactions
   var sum_transactions_16_17 = (service_16_17.length > 0) ? sumTransactions(service_16_17) : 0;
@@ -67,9 +69,9 @@ function consumeData(error, services_data, standards_data) {
 
   //Append service title & description
   if (fr_page) {
-    $('h1').html(service[0]['harmonized_service_name_fr'] + ': Tableau de bord sur le rendement');
-    $('#service_title').html('<b>Titre du service</b> : ' + service[0]['harmonized_service_name_fr']);
-    var org_name = service[0]['owner_org_title'].split(" | ")[1];
+    $('h1').html(service[0]['service_name_fr'] + ': Tableau de bord sur le rendement');
+    $('#service_title').html('<b>Titre du service</b> : ' + service[0]['service_name_fr']);
+    var org_name = service[0]['department_name_en'];
     $('#service_department').html('<b>Ministère</b> : ' + org_name);
     $('#service_description').html('<b>Description du service</b> : ' + service[0]['service_description_fr']);
     $('#service_year').html('<b>Année de la déclaration</b> : ' + service[0]['fiscal_yr']);
@@ -78,9 +80,9 @@ function consumeData(error, services_data, standards_data) {
       $('#service_url').html('<b>Lien au service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_fr'] +'">Accedez ici</a>');
     }
   } else {
-    $('h1').html(service[0]['harmonized_service_name_en'] + ': Performance Dashboard');
-    $('#service_title').html('<b>Service name</b>: ' + service[0]['harmonized_service_name_en']);
-    var org_name = service[0]['owner_org_title'].split(" | ")[0];
+    $('h1').html(service[0]['service_name_en'] + ': Performance Dashboard');
+    $('#service_title').html('<b>Service name</b>: ' + service[0]['service_name_en']);
+    var org_name = service[0]['department_name_en'];
     $('#service_department').html('<b>Department</b>: ' + org_name);
     $('#service_description').html('<b>Service description</b>: ' + service[0]['service_description_en']);
     $('#service_year').html('<b>Year reported</b>: ' + service[0]['fiscal_yr']);
@@ -116,7 +118,7 @@ function consumeData(error, services_data, standards_data) {
 
   //target data
   var standards = _.filter(standards_data, function(row) {
-    return service[0]['harmonized_service_id'] === row['harmonized_service_id'];
+    return service[0]['service_id'] === row['service_id'];
   });
   function drawChart1() {
     if(standards.length > 0) {
@@ -173,10 +175,8 @@ function validURL(str) {
 
 
 d3.queue()
-  // .defer(d3.csv, 'service-inventory-services.csv')
-  // .defer(d3.csv, 'service-standards.csv')
-  .defer(d3.csv, 'service.csv')
-  .defer(d3.csv, 'service-std.csv')
+  .defer(d3.csv, 'service_inventory.csv')
+  .defer(d3.csv, 'service_standards.csv')
   // .defer(d3.csv, 'https://open.canada.ca/data/dataset/3ac0d080-6149-499a-8b06-7ce5f00ec56c/resource/3acf79c0-a5f5-4d9a-a30d-fb5ceba4b60a/download/service.csv')
   // .defer(d3.csv, 'https://open.canada.ca/data/dataset/3ac0d080-6149-499a-8b06-7ce5f00ec56c/resource/272143a7-533e-42a1-b72d-622116474a21/download/service-std.csv')
   .await(consumeData); //only function name is needed
