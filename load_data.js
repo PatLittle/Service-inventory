@@ -1,7 +1,7 @@
 //
 // let formatDollar = function(d) { return "$" + d3.format(",.0f")(d).replace(/G/,"B"); }
 // let formatDollarMini = function(d) { return "$" + d3.format(".2s")(d).replace(/G/,"B"); }
-let formatPercentDecimal = function(d) { return d3.format(".1f")(d*100) + "%"; }
+let formatPercentDecimal = function(d) { return d3.format(".1f")(d) + "%"; }
 let formatPercent = function(d) { return d3.format(".0f")(d) + "%"; }
 let formatNumberMini = function(d) { 
   if (d<10) {
@@ -123,8 +123,8 @@ function consumeData(error, services_data, standards_data) {
   function drawChart1() {
     if(standards.length > 0) {
       var targets_met = _.filter(standards, function(obj) { return parseFloat(obj['performance']) >= parseFloat(obj['service_std_target']) });
-      var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseFloat(num)*100 },0)/standards.length;
-      var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseFloat(num)*100 },0)/standards.length;
+      var avrg_target = _.reduce(_.pluck(standards, 'service_std_target'), function(memo, num) { return memo + parseFloat(num)},0)/standards.length;
+      var avrg_performance = _.reduce(_.pluck(standards, 'performance'), function(memo, num) { return memo + parseFloat(num)},0)/standards.length;
       drawDoughnutChart(targets_met.length, standards.length);
     } else {
       $('#standards').attr('style','display: none');
