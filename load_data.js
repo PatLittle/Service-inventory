@@ -13,12 +13,12 @@ let formatNumberMini = function(d) {
   return d3.format(".3s")(d).replace(/G/,"B");
 }
 
-// var url = window.location.href;
-// var service_id = decodeURIComponent(url.split('?').pop());
+var url = window.location.href;
+var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-var url = 'search.open.canada.ca/chart/si/index-en.html?135';
-var service_id = url.split('?').pop();
+// var url = 'search.open.canada.ca/chart/si/index-en.html?135';
+// var service_id = url.split('?').pop();
 
 var fr_page = false;
 
@@ -111,7 +111,6 @@ function consumeData(error, services_data, standards_data) {
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
   var online_percent = 100*online_applications/sumTransactions(service)
   console.log(online_percent);
-  // var online_percent = (service_17_18.length == 0 ) ? 100 * online_applications/sum_transactions_16_17 : (sum_transactions_17_18 > 0) ? 100 * online_applications/sum_transactions_17_18 : 0;
   $('#online_percent').html(formatPercent(online_percent));
 
   // e-enablement
