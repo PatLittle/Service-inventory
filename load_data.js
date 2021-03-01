@@ -13,12 +13,12 @@ let formatNumberMini = function(d) {
   return d3.format(".3s")(d).replace(/G/,"B");
 }
 
-var url = window.location.href;
-var service_id = decodeURIComponent(url.split('?').pop());
+// var url = window.location.href;
+// var service_id = decodeURIComponent(url.split('?').pop());
 
 // Testing variables
-// var url = 'chercher.ouvert.canada.ca/chart/si/index-en.html?135';
-// var service_id = url.split('?').pop();
+var url = 'search.open.canada.ca/chart/si/index-en.html?135';
+var service_id = url.split('?').pop();
 
 var fr_page = false;
 
@@ -30,12 +30,12 @@ if (url.indexOf('index-fr.html') > -1) {
 }
 
 function sumTransactions(service) {
-  var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
-  var in_person_applications = (service[0]['in_person_applications'] == "") ? 0 : parseInt(service[0]['in_person_applications']);
-  // var email_applications = (service[0]['email_applications'] == "") ? 0 : parseInt(service[0]['email_applications']);
-  var other_applications = (service[0]['other_applications'] == "") ? 0 : parseInt(service[0]['other_applications']);
-  var postal_mail_applications = (service[0]['postal_mail_applications'] == "") ? 0 : parseInt(service[0]['postal_mail_applications']);
-  return online_applications + in_person_applications + other_applications + postal_mail_applications;
+  var online_applications = (service[0]['online_applications'] == ("" || "ND")) ? 0 : parseInt(service[0]['online_applications']);
+  var in_person_applications = (service[0]['in_person_applications'] == ("" || "ND")) ? 0 : parseInt(service[0]['in_person_applications']);
+  var telephone_applications = (service[0]['telephone_applications'] == ("" || "ND")) ? 0 : parseInt(service[0]['telephone_applications']);
+  var other_applications = (service[0]['other_applications'] == ("" || "ND")) ? 0 : parseInt(service[0]['other_applications']);
+  var postal_mail_applications = (service[0]['postal_mail_applications'] == ("" || "ND")) ? 0 : parseInt(service[0]['postal_mail_applications']);
+  return online_applications + in_person_applications + telephone_applications + other_applications + postal_mail_applications;
 }
 
 function consumeData(error, services_data, standards_data) {
@@ -54,14 +54,27 @@ function consumeData(error, services_data, standards_data) {
     return !isNaN(row['service_id']) && service_id === row['service_id'];
   });
 
-  console.log({service_16_17,service_17_18});
+  var service_18_19 = _.filter(year_data['2018-2019'], function (row) {
+    return !isNaN(row['service_id']) && service_id === row['service_id'];
+  });
+
+  var service_19_20 = _.filter(year_data['2019-2020'], function (row) {
+    return !isNaN(row['service_id']) && service_id === row['service_id'];
+  });
+
+  console.log({service_16_17,service_17_18,service_18_19,service_19_20});
 
   // Sum of transactions
   var sum_transactions_16_17 = (service_16_17.length > 0) ? sumTransactions(service_16_17) : 0;
   var sum_transactions_17_18 = (service_17_18.length > 0) ? sumTransactions(service_17_18) : 0;
-  var service = (service_17_18.length > 0) ? service_17_18 : service_16_17;
+  var sum_transactions_18_19 = (service_17_18.length > 0) ? sumTransactions(service_18_19) : 0;
+  var sum_transactions_19_20 = (service_17_18.length > 0) ? sumTransactions(service_19_20) : 0;
+  var service = (service_19_20.length > 0) ? service_19_20 : (service_18_19.length > 0) ? service_18_19 : (service_17_18.length > 0) ? service_17_18: service_16_17;
+  
+  console.log(service)
   function drawChart2() {
-    drawBarChart(sum_transactions_16_17, sum_transactions_17_18);
+    var servicesSum = [sum_transactions_16_17, sum_transactions_17_18, sum_transactions_18_19, sum_transactions_19_20]
+    drawBarChart(servicesSum);
   }
 
 
@@ -96,7 +109,9 @@ function consumeData(error, services_data, standards_data) {
 
   //online percentage
   var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
-  var online_percent = (service_17_18.length == 0 ) ? 100 * online_applications/sum_transactions_16_17 : (sum_transactions_17_18 > 0) ? 100 * online_applications/sum_transactions_17_18 : 0;
+  var online_percent = 100*online_applications/sumTransactions(service)
+  console.log(online_percent);
+  // var online_percent = (service_17_18.length == 0 ) ? 100 * online_applications/sum_transactions_16_17 : (sum_transactions_17_18 > 0) ? 100 * online_applications/sum_transactions_17_18 : 0;
   $('#online_percent').html(formatPercent(online_percent));
 
   // e-enablement
@@ -118,8 +133,9 @@ function consumeData(error, services_data, standards_data) {
 
   //target data
   var standards = _.filter(standards_data, function(row) {
-    return service[0]['service_id'] === row['service_id'];
+    return (service[0]['service_id'] === row['service_id']) && (service[0]['fiscal_yr'] === row['fiscal_yr']);
   });
+  console.log(standards)
   function drawChart1() {
     if(standards.length > 0) {
       var targets_met = _.filter(standards, function(obj) { return parseFloat(obj['performance']) >= parseFloat(obj['service_std_target']) });

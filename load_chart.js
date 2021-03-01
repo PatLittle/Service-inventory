@@ -55,16 +55,17 @@ var myDoughnutChart = new Chart(ctx, {
 }
 
 
-function drawBarChart(sum16_17, sum17_18) {
+function drawBarChart(serviceSums) {
 
   var ctx = document.getElementById("chart2");
   ctx.height = 54;
+  maxYearSum = _.max(serviceSums)
 
   var data = {
-    labels: ['2016-2017','2017-2018'],
+    labels: ['2016-17','2017-18', '2018-19', '2019-20'],
     datasets: [
         {
-            data: [sum16_17, sum17_18],
+            data: serviceSums,
             backgroundColor: "#006699",
         }]
   };
@@ -112,7 +113,7 @@ function drawBarChart(sum16_17, sum17_18) {
           ticks: {
             display: false,
             suggestedMin: 0,
-            suggestedMax: (sum17_18 > sum16_17) ? (sum17_18*1.1) : (sum16_17*1.1),
+            suggestedMax: (maxYearSum*1.1),
           },
         }],
       },
