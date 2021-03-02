@@ -55,14 +55,14 @@ var myDoughnutChart = new Chart(ctx, {
 }
 
 
-function drawBarChart(serviceSums) {
+function drawBarChart(serviceSums, yr_labels) {
 
   var ctx = document.getElementById("chart2");
   ctx.height = 54;
   maxYearSum = _.max(serviceSums)
 
   var data = {
-    labels: ['2016-17','2017-18', '2018-19', '2019-20'],
+    labels: yr_labels,
     datasets: [
         {
             data: serviceSums,

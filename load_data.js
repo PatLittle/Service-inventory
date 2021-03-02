@@ -67,17 +67,43 @@ function consumeData(error, services_data, standards_data) {
   // Sum of transactions
   var sum_transactions_16_17 = (service_16_17.length > 0) ? sumTransactions(service_16_17) : 0;
   var sum_transactions_17_18 = (service_17_18.length > 0) ? sumTransactions(service_17_18) : 0;
-  var sum_transactions_18_19 = (service_17_18.length > 0) ? sumTransactions(service_18_19) : 0;
-  var sum_transactions_19_20 = (service_17_18.length > 0) ? sumTransactions(service_19_20) : 0;
+  var sum_transactions_18_19 = (service_18_19.length > 0) ? sumTransactions(service_18_19) : 0;
+  var sum_transactions_19_20 = (service_19_20.length > 0) ? sumTransactions(service_19_20) : 0;
   var service = (service_19_20.length > 0) ? service_19_20 : (service_18_19.length > 0) ? service_18_19 : (service_17_18.length > 0) ? service_17_18: service_16_17;
   
   console.log(service)
   function drawChart2() {
-    var servicesSum = [sum_transactions_16_17, sum_transactions_17_18, sum_transactions_18_19, sum_transactions_19_20]
-    drawBarChart(servicesSum);
+    var serviceSum = []
+    var labels = []
+    if (sum_transactions_16_17 > 0) {
+      serviceSum.push(sum_transactions_16_17);
+      labels.push('2016-17')
+    }
+    if (sum_transactions_17_18 > 0) {
+      serviceSum.push(sum_transactions_17_18);
+      labels.push('2017-18')
+    }
+    if (sum_transactions_18_19 > 0) {
+      serviceSum.push(sum_transactions_18_19);
+      labels.push('2018-19')
+    }
+    if (sum_transactions_19_20 > 0) {
+      serviceSum.push(sum_transactions_19_20);
+      labels.push('2019-20')
+    }
+    drawBarChart(serviceSum, labels);
   }
 
 
+  //online percentage
+  if ((service[0]['online_applications'] != ("" || "ND")) && sumTransactions(service) > 0) {
+    var online_applications = parseInt(service[0]['online_applications']);
+    var online_percent = 100*online_applications/sumTransactions(service)
+    console.log(online_percent);
+    $('#online_percent').html(formatPercent(online_percent));
+    $('#online_percent_section').show();
+  }
+  
 
 
   //Append service title & description
@@ -104,14 +130,6 @@ function consumeData(error, services_data, standards_data) {
       $('#service_url').html('<b>Link to service</b> : <a class="btn btn-default" href="'+ service[0]['service_url_en'] +'">Access here</a>');
     }
   }
-
-
-
-  //online percentage
-  var online_applications = (service[0]['online_applications'] == "") ? 0 : parseInt(service[0]['online_applications']);
-  var online_percent = 100*online_applications/sumTransactions(service)
-  console.log(online_percent);
-  $('#online_percent').html(formatPercent(online_percent));
 
   // e-enablement
 
