@@ -90,13 +90,13 @@ function consumeData(error, services_data, standards_data) {
 
   // Sum of transactions
   var sum_transactions_16_17 =
-    service_16_17.length > 0 ? sumTransactions(service_16_17) : 0;
+    service_16_17.length > 0 ? sumTransactions(service_16_17) : null;
   var sum_transactions_17_18 =
-    service_17_18.length > 0 ? sumTransactions(service_17_18) : 0;
+    service_17_18.length > 0 ? sumTransactions(service_17_18) : null;
   var sum_transactions_18_19 =
-    service_18_19.length > 0 ? sumTransactions(service_18_19) : 0;
+    service_18_19.length > 0 ? sumTransactions(service_18_19) : null;
   var sum_transactions_19_20 =
-    service_19_20.length > 0 ? sumTransactions(service_19_20) : 0;
+    service_19_20.length > 0 ? sumTransactions(service_19_20) : null;
   var service =
     service_19_20.length > 0
       ? service_19_20
@@ -122,7 +122,7 @@ function consumeData(error, services_data, standards_data) {
       serviceSum.push(sum_transactions_18_19);
       labels.push("2018-19");
     }
-    if (sum_transactions_19_20 > 0) {
+    if (sum_transactions_19_20) { //Client request: for the last year, display it in the chart as long as it exists, even if it has an applications sum of 0
       serviceSum.push(sum_transactions_19_20);
       labels.push("2019-20");
     }
