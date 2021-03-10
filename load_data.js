@@ -17,12 +17,12 @@ let formatNumberMini = function (d) {
   return d3.format(".3s")(d).replace(/G/, "B");
 };
 
-// var url = window.location.href;
-// var service_id = decodeURIComponent(url.split("?").pop());
+var url = window.location.href;
+var service_id = decodeURIComponent(url.split("?").pop());
 
 // Testing variables
-var url = "search.open.canada.ca/chart/si/index-en.html?135";
-var service_id = url.split("?").pop();
+// var url = "search.open.canada.ca/chart/si/index-fr.html?1669";
+// var service_id = url.split("?").pop();
 
 var fr_page = false;
 
@@ -139,6 +139,9 @@ function consumeData(error, services_data, standards_data) {
     console.log(online_percent);
     $("#online_percent").html(formatPercent(online_percent));
     $("#online_percent_section").show();
+  } else {
+    $("#online_applications_null").show();
+    $("#chart2").hide();
   }
 
   //Append service title & description
@@ -152,7 +155,7 @@ function consumeData(error, services_data, standards_data) {
     var org_name = service[0]["department_name_en"];
     $("#service_department").html("<b>Ministère</b> : " + org_name);
     $("#service_description").html(
-      "<b>Description du service</b> : " + service[0]["service_description_fr"]
+      "<b>Description du service</b>:<p>" + service[0]["service_description_fr"] + "</p>"
     );
     $("#service_fee").html(
       "<b>Frais de service</b> : " +
@@ -175,7 +178,7 @@ function consumeData(error, services_data, standards_data) {
     var org_name = service[0]["department_name_en"];
     $("#service_department").html("<b>Department</b>: " + org_name);
     $("#service_description").html(
-      "<b>Service description</b>: " + service[0]["service_description_en"]
+      "<b>Service description</b>:<p>" + service[0]["service_description_en"] + "</p>"
     );
     $("#service_fee").html(
       "<b>Service fees</b>: " +
@@ -219,7 +222,7 @@ function consumeData(error, services_data, standards_data) {
     if (standards.length > 0) {
       var targets_met = _.filter(standards, function (obj) {
         return (
-          parseFloat(obj["performance"]) >=
+          Math.ceil(parseFloat(obj["performance"])) >=
           parseFloat(obj["service_std_target"])
         );
       });
@@ -258,9 +261,9 @@ function consumeData(error, services_data, standards_data) {
       var tableFormat = {
         "Norme relative aux services": standard.service_std_fr,
         Objectif:
-          standard.service_std_target != ""
+          standard.service_std_target != "ND"
             ? formatPercentDecimal(parseFloat(standard.service_std_target))
-            : "",
+            : "ND",
         Résultat:
           standard.performance != "ND"
             ? formatPercentDecimal(parseFloat(standard.performance))
@@ -270,9 +273,9 @@ function consumeData(error, services_data, standards_data) {
       var tableFormat = {
         "Service standard": standard.service_std_en,
         Target:
-          standard.service_std_target != ""
+          standard.service_std_target != "ND"
             ? formatPercentDecimal(parseFloat(standard.service_std_target))
-            : "",
+            : "ND",
         Result:
           standard.performance != "ND"
             ? formatPercentDecimal(parseFloat(standard.performance))

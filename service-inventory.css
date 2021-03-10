@@ -20,15 +20,20 @@
 .donut-inner h2 {
   margin-bottom: 5px;
   margin-top: 0;
-}
-
-#chart1 {
-  /* margin-bottom: 50px; */
+  padding-top: 0;
 }
 
 #chart2 {
   margin-bottom: 25px;
-  margin-top: 25px;
+  margin-top: 10px;
+}
+
+h4 {
+  margin-bottom: 0px;
+  margin-top: 37px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #666666;
 }
 
 #target {
@@ -59,4 +64,9 @@ td.min {
 
 #online_percent_section {
   display: none;
+}
+
+#online_applications_null {
+  display: none;
+  margin-top: 30px;
 }

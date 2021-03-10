@@ -81,12 +81,9 @@ function drawBarChart(serviceSums, yr_labels) {
 
   var options = {
     title: {
-      display: true,
-      text: fr_page
-        ? "Nombre Total d'Applications"
-        : "Total Number of Applications",
+      display: false,
       position: "top",
-      padding: 20,
+      padding: 0,
       fontSize: 22,
       // fontColor: 'black'
     },
