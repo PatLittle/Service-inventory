@@ -17,12 +17,12 @@ let formatNumberMini = function (d) {
   return d3.format(".3s")(d).replace(/G/, "B");
 };
 
-var url = window.location.href;
-var service_id = decodeURIComponent(url.split("?").pop());
+// var url = window.location.href;
+// var service_id = decodeURIComponent(url.split("?").pop());
 
 // Testing variables
-// var url = 'search.open.canada.ca/chart/si/index-en.html?135';
-// var service_id = url.split('?').pop();
+var url = "search.open.canada.ca/chart/si/index-en.html?135";
+var service_id = url.split("?").pop();
 
 var fr_page = false;
 
@@ -154,9 +154,6 @@ function consumeData(error, services_data, standards_data) {
     $("#service_description").html(
       "<b>Description du service</b> : " + service[0]["service_description_fr"]
     );
-    $("#service_year").html(
-      "<b>Année de la déclaration</b> : " + service[0]["fiscal_yr"]
-    );
     $("#service_fee").html(
       "<b>Frais de service</b> : " +
         (service[0]["service_fee"] == "Y"
@@ -180,7 +177,6 @@ function consumeData(error, services_data, standards_data) {
     $("#service_description").html(
       "<b>Service description</b>: " + service[0]["service_description_en"]
     );
-    $("#service_year").html("<b>Year reported</b>: " + service[0]["fiscal_yr"]);
     $("#service_fee").html(
       "<b>Service fees</b>: " +
         (service[0]["service_fee"] == "Y"
