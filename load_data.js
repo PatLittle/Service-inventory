@@ -70,11 +70,11 @@ function consumeData(error, services_data, standards_data) {
 
   var year_data = _.chain(services_data).groupBy("fiscal_yr").value();
 
-  var service_17_18 = _.filter(year_data["2017-2018"], function (row) {
+  var service_16_17 = _.filter(year_data["2016-2017"], function (row) {
     return !isNaN(row["service_id"]) && service_id === row["service_id"];
   });
-
-  var service_16_17 = _.filter(year_data["2016-2017"], function (row) {
+  
+  var service_17_18 = _.filter(year_data["2017-2018"], function (row) {
     return !isNaN(row["service_id"]) && service_id === row["service_id"];
   });
 
@@ -86,7 +86,7 @@ function consumeData(error, services_data, standards_data) {
     return !isNaN(row["service_id"]) && service_id === row["service_id"];
   });
 
-  console.log({ service_16_17, service_17_18, service_18_19, service_19_20 });
+  console.log([service_16_17, service_17_18, service_18_19, service_19_20 ]);
 
   // Sum of transactions
   var sum_transactions_16_17 =
@@ -104,9 +104,11 @@ function consumeData(error, services_data, standards_data) {
       ? service_18_19
       : service_17_18.length > 0
       ? service_17_18
-      : service_16_17;
+      : service_16_17.length > 0
+      ? service_16_17 : null; //takes the latest service report that exists
 
   console.log(service);
+
   function drawChart2() {
     var serviceSum = [];
     var labels = [];
@@ -126,7 +128,16 @@ function consumeData(error, services_data, standards_data) {
       serviceSum.push(sum_transactions_19_20);
       labels.push("2019-20");
     }
-    drawBarChart(serviceSum, labels);
+
+    if (serviceSum.length > 0) {
+      drawBarChart(serviceSum, labels);
+    } else {
+      if (service[0]["info_service"] == "Y") {
+        $("#total_applications_null").html(fr_page ? "Ce service fournit des informations et n'accepte aucune demande." : "This service provides information and has no applications.");
+      }
+      $("#total_applications_null").show();
+      $("#chart2").hide();
+    }
   }
 
   //online percentage
@@ -139,9 +150,6 @@ function consumeData(error, services_data, standards_data) {
     console.log(online_percent);
     $("#online_percent").html(formatPercent(online_percent));
     $("#online_percent_section").show();
-  } else {
-    $("#online_applications_null").show();
-    $("#chart2").hide();
   }
 
   //Append service title & description
