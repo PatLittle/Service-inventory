@@ -24,7 +24,7 @@ var service_id = decodeURIComponent(url.split("?").pop());
 // var url = "search.open.canada.ca/chart/si/index-fr.html?1669";
 // var service_id = url.split("?").pop();
 
-var fr_page = false;
+var fr_page = false; 
 
 if (url.indexOf("index-fr.html") > -1) {
   fr_page = true;
@@ -133,7 +133,7 @@ function consumeData(error, services_data, standards_data) {
       drawBarChart(serviceSum, labels);
     } else {
       if (service[0]["info_service"] == "Y") {
-        $("#total_applications_null").html(fr_page ? "Ce service fournit des informations et n'accepte aucune demande." : "This service provides information and has no applications.");
+        $("#total_applications_null").html(fr_page ? "Ce service fournit de l'information et ne possède aucune demande." : "This service provides information and has no applications.");
       }
       $("#total_applications_null").show();
       $("#chart2").hide();
@@ -270,11 +270,11 @@ function consumeData(error, services_data, standards_data) {
         "Norme relative aux services": standard.service_std_fr,
         Objectif:
           standard.service_std_target != "ND"
-            ? formatPercentDecimal(parseFloat(standard.service_std_target))
+            ? formatPercent(Math.ceil(parseFloat(standard.service_std_target)))
             : "ND",
         Résultat:
           standard.performance != "ND"
-            ? formatPercentDecimal(parseFloat(standard.performance))
+            ? formatPercent(Math.ceil(parseFloat(standard.performance)))
             : "ND",
       };
     } else {
@@ -282,11 +282,11 @@ function consumeData(error, services_data, standards_data) {
         "Service standard": standard.service_std_en,
         Target:
           standard.service_std_target != "ND"
-            ? formatPercentDecimal(parseFloat(standard.service_std_target))
+            ? formatPercent(Math.ceil(parseFloat(standard.service_std_target)))
             : "ND",
         Result:
           standard.performance != "ND"
-            ? formatPercentDecimal(parseFloat(standard.performance))
+            ? formatPercent(Math.ceil(parseFloat(standard.performance)))
             : "ND",
       };
     }
