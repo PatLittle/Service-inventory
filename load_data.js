@@ -160,7 +160,7 @@ function consumeData(error, services_data, standards_data) {
     $("#service_title").html(
       "<b>Titre du service</b> : " + service[0]["service_name_fr"]
     );
-    var org_name = service[0]["department_name_en"];
+    var org_name = service[0]["department_name_fr"];
     $("#service_department").html("<b>Ministère</b> : " + org_name);
     $("#service_description").html(
       "<b>Description du service</b>:<p>" + service[0]["service_description_fr"] + "</p>"
