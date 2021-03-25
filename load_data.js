@@ -268,6 +268,7 @@ function consumeData(error, services_data, standards_data) {
     if (fr_page) {
       var tableFormat = {
         "Norme relative aux services": standard.service_std_fr,
+        "Moyen": standard.channel,
         Objectif:
           standard.service_std_target != "ND"
             ? formatPercent(Math.ceil(parseFloat(standard.service_std_target)))
@@ -280,6 +281,7 @@ function consumeData(error, services_data, standards_data) {
     } else {
       var tableFormat = {
         "Service standard": standard.service_std_en,
+        "Channel": standard.channel,
         Target:
           standard.service_std_target != "ND"
             ? formatPercent(Math.ceil(parseFloat(standard.service_std_target)))
