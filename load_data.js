@@ -305,7 +305,7 @@ function consumeData(error, services_data, standards_data) {
     if (fr_page) {
       var tableFormat = {
         "Norme relative aux services": standard.service_std_fr,
-        "Moyen": standard_channels[standard.channel].fr,
+        "Modes de prestation": standard_channels[standard.channel].fr,
         Objectif:
           standard.service_std_target != "ND"
             ? formatPercent(Math.ceil(parseFloat(standard.service_std_target)))
