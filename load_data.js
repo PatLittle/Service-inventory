@@ -24,6 +24,43 @@ var service_id = decodeURIComponent(url.split("?").pop());
 // var url = "search.open.canada.ca/chart/si/index-fr.html?1669";
 // var service_id = url.split("?").pop();
 
+
+// Service standards channels dictionary
+var standard_channels = {
+  onl: {
+    en: 'Online',
+    fr: 'En ligne'
+  },
+  tel: {
+    en: 'Telephone',
+    fr: 'Téléphone'
+  },
+  person: {
+    en: 'In-Person',
+    fr: 'En personne'
+  },
+  eml: {
+    en: 'Email',
+    fr: 'Courriel'
+  },
+  fax: {
+    en: 'Fax',
+    fr: 'Télécopieur'
+  },
+  post: {
+    en: 'Postal Mail',
+    fr: 'Courrier postal'
+  },
+  oth: {
+    en: 'Other',
+    fr: 'Autre'
+  },
+  non: {
+    en: 'None',
+    fr: 'Aucune des réponses'
+  }
+}
+
 var fr_page = false; 
 
 if (url.indexOf("index-fr.html") > -1) {
@@ -268,7 +305,7 @@ function consumeData(error, services_data, standards_data) {
     if (fr_page) {
       var tableFormat = {
         "Norme relative aux services": standard.service_std_fr,
-        "Moyen": standard.channel,
+        "Moyen": standard_channels[standard.channel].fr,
         Objectif:
           standard.service_std_target != "ND"
             ? formatPercent(Math.ceil(parseFloat(standard.service_std_target)))
@@ -281,7 +318,7 @@ function consumeData(error, services_data, standards_data) {
     } else {
       var tableFormat = {
         "Service standard": standard.service_std_en,
-        "Channel": standard.channel,
+        "Channel": standard_channels[standard.channel].en,
         Target:
           standard.service_std_target != "ND"
             ? formatPercent(Math.ceil(parseFloat(standard.service_std_target)))
