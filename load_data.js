@@ -1,6 +1,4 @@
 //
-// let formatDollar = function(d) { return "$" + d3.format(",.0f")(d).replace(/G/,"B"); }
-// let formatDollarMini = function(d) { return "$" + d3.format(".2s")(d).replace(/G/,"B"); }
 let formatPercentDecimal = function (d) {
   return d3.format(".1f")(d) + "%";
 };
@@ -165,7 +163,9 @@ function consumeData(error, services_data, standards_data) {
         serviceSum.push(sum_transactions_18_19);
         labels.push("2018-19");
       }
-      if (sum_transactions_19_20) { //Client request: for the last year, display it in the chart as long as it exists, even if it has an applications sum of 0
+
+      //Client request: for the last year, display it in the chart as long as it exists, even if it has an applications sum of 0
+      if (sum_transactions_19_20) {
         serviceSum.push(sum_transactions_19_20);
         labels.push("2019-20");
       }
@@ -245,7 +245,6 @@ function consumeData(error, services_data, standards_data) {
     }
 
     // e-enablement
-
     var e_enablement = {
       e_registration: service[0]["e_registration"],
       e_authentication: service[0]["e_authentication"],
