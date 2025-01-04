@@ -359,6 +359,6 @@ function validURL(str) {
 }
 
 d3.queue()
-  .defer(d3.csv, "https://open.canada.ca/chart/si/service_nventory.csv")
-  .defer(d3.csv, "https://open.canada.ca/chart/si/service_standards.csv")
+  .defer(d3.csv, "/service_inventory.csv")
+  .defer(d3.csv, "/service_standards.csv")
   .await(consumeData); //only function name is needed
